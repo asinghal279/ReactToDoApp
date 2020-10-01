@@ -5,6 +5,7 @@ class App extends Component {
   state = {
     projects: ["Async/Await", "EasyBank"]
   };
+
   render() {
     return (
       <div className="container">
