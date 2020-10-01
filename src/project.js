@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 class Project extends Component {
   state = {
+    projects: this.props.list,
     selectedProject: "",
   };
 
@@ -12,7 +13,7 @@ class Project extends Component {
       console.log(this.state.selectedProject)
     );
   };
-  
+
   render() {
     return (
       <div className="col-sm-6">
@@ -23,12 +24,12 @@ class Project extends Component {
             id="inputGroupSelect04"
             onChange={this.changeSelectedProject}
           >
-            {this.props.list.map((project) => (
+            {this.state.projects.map((project) => (
               <option>{project}</option>
             ))}
           </select>
           <div class="input-group-append">
-            <button class="btn btn-outline-danger" type="button">
+            <button onClick={() => this.props.onDelete(this.state.selectedProject)} class="btn btn-outline-danger" type="button">
               Delete Project
             </button>
           </div>

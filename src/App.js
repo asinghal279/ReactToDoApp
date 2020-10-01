@@ -6,11 +6,18 @@ class App extends Component {
     projects: ["Async/Await", "EasyBank"]
   };
 
+  handleDeleteProject = (project) => {
+    let index = this.state.projects.indexOf(project) 
+    if(index>-1)
+    this.setState({
+      projects: this.state.projects.splice(index,1)
+    })
+  }
   render() {
     return (
       <div className="container">
         <div className="row">
-          <Project list={this.state.projects}/>
+          <Project list={this.state.projects} onDelete={(projectToDelete) => this.handleDeleteProject(projectToDelete)}/>
         </div>
       </div>
     );
