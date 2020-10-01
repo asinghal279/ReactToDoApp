@@ -1,19 +1,52 @@
 import React, { Component } from "react";
 
 class Project extends Component {
-  state = {
-    projects: this.props.list,
-    selectedProject: "",
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      projects: this.props.list,
+      selectedProject: this.props.selectedProject,
+      newItem: ""
+    };
+
+    this.alertClass = "alert alert-warning alert-dismissible fade ";
+  }
 
   changeSelectedProject = (e) => {
     let optionsNode = document.querySelector("#selector");
     let selectedProjectName =
       optionsNode.options[optionsNode.selectedIndex].innerHTML;
-    this.setState({ selectedProject: selectedProjectName }, () =>
-      console.log(this.state.selectedProject)
-    );
+    this.props.selectedProjectHandler(selectedProjectName);
   };
+
+  deleteClicked = async () => {
+    await this.props.onDelete(this.state.selectedProject);
+    await this.changeSelectedProject();
+  };
+
+  class = () => {
+    if (this.state.projects.length > 1) {
+      let k = this.alertClass;
+      k = k + "d-none";
+      return k;
+    } else {
+      let k = this.alertClass;
+      k = k + "show";
+      return k;
+    }
+  };
+
+  inputField = (e) => {
+    this.setState({
+      newItem : e.target.value
+    })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.addProject(this.state.newItem)
+  }
 
   render() {
     return (
@@ -25,22 +58,15 @@ class Project extends Component {
             id="selector"
             onChange={this.changeSelectedProject}
           >
-            {this.state.projects.map((project) => (
-              <option>{project}</option>
+            {Object.keys(this.state.projects).map((project) => (
+              <option id={project} value={project}>
+                {project}
+              </option>
             ))}
           </select>
           <div class="input-group-append">
             <button
-              onClick={async () => {
-                let bool = await this.props.onDelete(
-                  this.state.selectedProject
-                );
-                await this.changeSelectedProject();
-                if (!bool) {
-                  document.querySelector("#warning").classList.remove("d-none");
-                  document.querySelector("#warning").classList.add("show");
-                }
-              }}
+              onClick={this.deleteClicked}
               class="btn btn-outline-danger"
               type="button"
             >
@@ -48,18 +74,14 @@ class Project extends Component {
             </button>
           </div>
         </div>
-        <div
-          class="alert alert-warning alert-dismissible fade d-none"
-          id="warning"
-          role="alert"
-        >
+        <div className={this.class()} id="warning" role="alert">
           <strong>Warning !</strong> There should be atleast one project in the
           list
-          <button type="button" class="close" aria-label="Close">
+          {/* <button type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
-          </button>
+          </button> */}
         </div>
-        <form action="" class="col-sm-12 p-0 mt-4" id="projectForm">
+        <form onSubmit={this.handleSubmit} class="col-sm-12 p-0 mt-4" id="projectForm">
           <div class="form-group">
             <h3 for="project">Please enter a new Project here :</h3>
             <input
@@ -68,6 +90,7 @@ class Project extends Component {
               id="projectName"
               class="form-control mb-4"
               placeholder="Project Name"
+              onChange = {this.inputField}
               required
             />
             {/* <div
