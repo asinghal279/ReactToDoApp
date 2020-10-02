@@ -7,12 +7,12 @@ class Project extends Component {
     this.state = {
       projects: this.props.list,
       selectedProject: this.props.selectedProject,
-      projectName: ""
+      projectName: "",
     };
   }
 
   changeSelectedProject = (e) => {
-    this.props.selectedProjectHandler(e.target.value)
+    this.props.selectedProjectHandler(e.target.value);
   };
 
   deleteClicked = async () => {
@@ -34,17 +34,17 @@ class Project extends Component {
 
   inputField = (e) => {
     this.setState({
-      [e.target.id]: e.target.value 
-    })
-  }
+      [e.target.id]: e.target.value,
+    });
+  };
 
-  handleSubmit = async(e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    await this.props.addProject(this.state.projectName)
+    await this.props.addProject(this.state.projectName);
     this.setState({
-      projectName: ""
-    })
-  }
+      projectName: "",
+    });
+  };
 
   render() {
     return (
@@ -75,35 +75,32 @@ class Project extends Component {
         <div className={this.props.warningAlertClass} id="warning" role="alert">
           <strong>Warning !</strong> There should be atleast one project in the
           list
-          <button type="button" class="close" aria-label="Close" onClick={this.props.handleAlertClose}>
+          <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            onClick={this.props.handleAlertClose}
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form onSubmit={this.handleSubmit} class="col-sm-12 p-0 mt-4" id="projectForm">
+        <form
+          onSubmit={this.handleSubmit}
+          class="col-sm-12 p-0 mt-4"
+          id="projectForm"
+        >
           <div class="form-group">
             <h3 for="project">Please enter a new Project here :</h3>
             <input
               type="text"
               name="project"
               id="projectName"
-              value = {this.state.projectName}
+              value={this.state.projectName}
               class="form-control mb-4"
               placeholder="Project Name"
-              onChange = {this.inputField}
+              onChange={this.inputField}
               required
             />
-            {/* <div
-                class="alert alert-success alert-dismissible fade d-none"
-                id="projectAddSuccess"
-                role="alert"
-                data-hide="alert"
-              >
-                <strong> Project Added </strong> to the options list. Please go
-                and select your project from the list.
-                <button type="button" class="close" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div> */}
             <div class="text-right">
               <input
                 type="submit"
