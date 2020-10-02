@@ -70,6 +70,7 @@ class todo extends Component {
                 class="check ml-2 show-completed"
                 type="checkbox"
                 name="checkbox"
+                onChange= {(e) => this.props.showCompletedTodo(e.target.checked)}
               />
             </div>
           </div>
