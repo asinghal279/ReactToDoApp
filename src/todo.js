@@ -37,7 +37,7 @@ class todo extends Component {
                   id="tagsInput"
                   class="form-control"
                   placeholder="Enter Coma Separated Tags.."
-                  onChange={(e) => this.setState({ newTags: e.target.value })}
+                  onChange={(e) => this.setState({ newTags: e.target.value.split(",") })}
                   required
                 ></textarea>
               </div>
@@ -66,7 +66,7 @@ class todo extends Component {
             </div>
           </div>
           <div class="col-sm-12">
-            <div id="toDoList" class="col-sm-10 mx-auto to-do-box p-5">
+            <div id="toDoList" class="col-sm-12">
                 {this.props.children}
             </div>
           </div>
