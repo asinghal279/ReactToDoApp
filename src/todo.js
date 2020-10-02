@@ -14,6 +14,10 @@ class todo extends Component {
       e.preventDefault();
       let array = [this.state.newTitle, this.state.newTags];
       this.props.addTodo(array);
+      this.setState({
+        newTitle:"",
+        newTags: ""
+      })
   }
 
   render() {
@@ -29,12 +33,14 @@ class todo extends Component {
                   id="titleInput"
                   class="form-control mb-4"
                   placeholder="Title"
+                  value = {this.state.newTitle}
                   onChange={(e) => this.setState({ newTitle: e.target.value })}
                   required
                 />
                 <textarea
                   name="tags"
                   id="tagsInput"
+                  value = {this.state.newTags}
                   class="form-control"
                   placeholder="Enter Coma Separated Tags.."
                   onChange={(e) => this.setState({ newTags: e.target.value.split(",") })}

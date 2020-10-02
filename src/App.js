@@ -1,36 +1,47 @@
 import React, { Component } from "react";
 import Project from "./project";
 import Todo from "./todo";
-import './app.css';
+import "./app.css";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       projects: {
-        "Async/Await": [{ id: 2343, title: "morning", tags: ["promises", "callbacks"] }],
+        "Async/Await": [
+          { id: 2343, title: "morning", tags: ["promises", "callbacks"] },
+        ],
       },
       selectedProject: "Async/Await",
+      alertClass: "alert alert-warning alert-dismissible fade d-none",
     };
   }
 
-  handleDeleteProject = (project) => {
-    delete this.state.projects[project];
-    this.setState(
-      {
-        projects: this.state.projects,
-      },
-      () => console.log(this.state.projects)
-    );
+  handleDeleteProject = () => {
+    if (Object.keys(this.state.projects).length > 1) {
+      delete this.state.projects[this.state.selectedProject];
+      this.setState(
+        {
+          projects: this.state.projects,
+        },
+        () => console.log(this.state.projects)
+      );
+    } else {
+      this.setState({
+        alertClass: "alert alert-warning alert-dismissible fade show",
+      });
+    }
   };
 
   handleInput = (value) => {
     let obj = { ...this.state.projects };
     obj[value] = [];
-    this.state.projects[value] = [];
+    this.state.projects[value] =[];
+    // console.log(obj, this.state.projects);
     this.setState(
       {
         projects: this.state.projects,
+        alertClass: "alert alert-warning alert-dismissible fade d-none",
       },
       () => console.log(this.state.projects)
     );
@@ -56,20 +67,20 @@ class App extends Component {
     let toDoList = [...this.state.projects[this.state.selectedProject]];
     let spliceIndex;
     toDoList.some((todo, index) => {
-      if(todo.id === idTobeDeleted){
+      if (todo.id === idTobeDeleted) {
         spliceIndex = index;
         return true;
       }
-    })
-    toDoList.splice(spliceIndex,1);
+    });
+    toDoList.splice(spliceIndex, 1);
     console.log(toDoList);
-    let newProjectsObj = {...this.state.projects};
+    let newProjectsObj = { ...this.state.projects };
     newProjectsObj[this.state.selectedProject] = toDoList;
     // this.state.projects[this.state.selectedProject] = toDoList
     this.setState({
       projects: newProjectsObj,
-    })
-  }
+    });
+  };
 
   render() {
     let d = new Date();
@@ -81,12 +92,16 @@ class App extends Component {
           <Project
             list={this.state.projects}
             selectedProject={this.state.selectedProject}
-            onDelete={(projectToDelete) =>
-              this.handleDeleteProject(projectToDelete)
-            }
+            onDelete={this.handleDeleteProject}
             addProject={(value) => this.handleInput(value)}
             selectedProjectHandler={(value) =>
               this.setState({ selectedProject: value })
+            }
+            warningAlertClass={this.state.alertClass}
+            handleAlertClose={() =>
+              this.setState({
+                alertClass: "alert alert-warning alert-dismissible fade d-none",
+              })
             }
           />
           <Todo addTodo={(arr) => this.handleTodoInput(arr)}>

@@ -7,22 +7,17 @@ class Project extends Component {
     this.state = {
       projects: this.props.list,
       selectedProject: this.props.selectedProject,
-      newItem: ""
+      projectName: ""
     };
-
-    this.alertClass = "alert alert-warning alert-dismissible fade ";
   }
 
   changeSelectedProject = (e) => {
-    let optionsNode = document.querySelector("#selector");
-    let selectedProjectName =
-      optionsNode.options[optionsNode.selectedIndex].innerHTML;
-    this.props.selectedProjectHandler(selectedProjectName);
+    this.props.selectedProjectHandler(e.target.value)
   };
 
   deleteClicked = async () => {
-    await this.props.onDelete(this.state.selectedProject);
-    await this.changeSelectedProject();
+    this.props.onDelete();
+    this.props.selectedProjectHandler(Object.keys(this.state.projects)[0]);
   };
 
   class = () => {
@@ -39,13 +34,16 @@ class Project extends Component {
 
   inputField = (e) => {
     this.setState({
-      newItem : e.target.value
+      [e.target.id]: e.target.value 
     })
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async(e) => {
     e.preventDefault();
-    this.props.addProject(this.state.newItem)
+    await this.props.addProject(this.state.projectName)
+    this.setState({
+      projectName: ""
+    })
   }
 
   render() {
@@ -74,12 +72,12 @@ class Project extends Component {
             </button>
           </div>
         </div>
-        <div className={this.class()} id="warning" role="alert">
+        <div className={this.props.warningAlertClass} id="warning" role="alert">
           <strong>Warning !</strong> There should be atleast one project in the
           list
-          {/* <button type="button" class="close" aria-label="Close">
+          <button type="button" class="close" aria-label="Close" onClick={this.props.handleAlertClose}>
             <span aria-hidden="true">&times;</span>
-          </button> */}
+          </button>
         </div>
         <form onSubmit={this.handleSubmit} class="col-sm-12 p-0 mt-4" id="projectForm">
           <div class="form-group">
@@ -88,6 +86,7 @@ class Project extends Component {
               type="text"
               name="project"
               id="projectName"
+              value = {this.state.projectName}
               class="form-control mb-4"
               placeholder="Project Name"
               onChange = {this.inputField}
