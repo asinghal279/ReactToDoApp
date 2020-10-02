@@ -48,7 +48,7 @@ class Project extends Component {
 
   render() {
     return (
-      <div className="col-sm-6">
+      <div className="col-sm-5">
         <h2>Project's Selection</h2>
         <div class="input-group col-sm-8 px-0 mb-4">
           <select

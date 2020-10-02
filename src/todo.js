@@ -10,19 +10,19 @@ class todo extends Component {
     };
   }
 
-  handleSubmit =(e) => {
-      e.preventDefault();
-      let array = [this.state.newTitle, this.state.newTags];
-      this.props.addTodo(array);
-      this.setState({
-        newTitle:"",
-        newTags: ""
-      })
-  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    let array = [this.state.newTitle, this.state.newTags];
+    this.props.addTodo(array);
+    this.setState({
+      newTitle: "",
+      newTags: "",
+    });
+  };
 
   render() {
     return (
-      <div className="col-sm-6">
+      <div className="col-sm-7">
         <div class="col-sm-12 mb-5">
           <div class="my-4 p-3 form-box">
             <h4 class="text-center">Please Enter your List Items Below</h4>
@@ -33,17 +33,19 @@ class todo extends Component {
                   id="titleInput"
                   class="form-control mb-4"
                   placeholder="Title"
-                  value = {this.state.newTitle}
+                  value={this.state.newTitle}
                   onChange={(e) => this.setState({ newTitle: e.target.value })}
                   required
                 />
                 <textarea
                   name="tags"
                   id="tagsInput"
-                  value = {this.state.newTags}
+                  value={this.state.newTags}
                   class="form-control"
                   placeholder="Enter Coma Separated Tags.."
-                  onChange={(e) => this.setState({ newTags: e.target.value.split(",") })}
+                  onChange={(e) =>
+                    this.setState({ newTags: e.target.value.split(",") })
+                  }
                   required
                 ></textarea>
               </div>
@@ -73,7 +75,7 @@ class todo extends Component {
           </div>
           <div class="col-sm-12">
             <div id="toDoList" class="col-sm-12">
-                {this.props.children}
+              {this.props.children}
             </div>
           </div>
         </div>

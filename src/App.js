@@ -33,10 +33,10 @@ class App extends Component {
     }
   };
 
-  handleInput = (value) => {
+  handleProjectInput = (value) => {
     let obj = { ...this.state.projects };
     obj[value] = [];
-    this.state.projects[value] =[];
+    this.state.projects[value] = [];
     // console.log(obj, this.state.projects);
     this.setState(
       {
@@ -67,18 +67,17 @@ class App extends Component {
     let toDoList = [...this.state.projects[this.state.selectedProject]];
     let spliceIndex;
     toDoList.some((todo, index) => {
-      if (todo.id === idTobeDeleted) {
+      if (todo.id === +idTobeDeleted) {
         spliceIndex = index;
         return true;
       }
     });
     toDoList.splice(spliceIndex, 1);
-    console.log(toDoList);
-    let newProjectsObj = { ...this.state.projects };
-    newProjectsObj[this.state.selectedProject] = toDoList;
-    // this.state.projects[this.state.selectedProject] = toDoList
+    // let newProjectsObj = { ...this.state.projects };
+    // newProjectsObj[this.state.selectedProject] = toDoList;
+    this.state.projects[this.state.selectedProject] = toDoList
     this.setState({
-      projects: newProjectsObj,
+      projects: this.state.projects,
     });
   };
 
@@ -93,7 +92,7 @@ class App extends Component {
             list={this.state.projects}
             selectedProject={this.state.selectedProject}
             onDelete={this.handleDeleteProject}
-            addProject={(value) => this.handleInput(value)}
+            addProject={(value) => this.handleProjectInput(value)}
             selectedProjectHandler={(value) =>
               this.setState({ selectedProject: value })
             }
@@ -117,7 +116,10 @@ class App extends Component {
                     >
                       &#9998;
                     </button>
-                    <button onClick={this.handleDeleteTodo} class="btn btn-outline-danger btn-sm delete-button">
+                    <button
+                      onClick={this.handleDeleteTodo}
+                      class="btn btn-outline-danger btn-sm delete-button"
+                    >
                       X
                     </button>
                     <input
@@ -128,7 +130,11 @@ class App extends Component {
                   </div>
                 </div>
                 <div class="d-flex justify-content-between mt-4">
-                  <div class="">{todo.tags.map((tag) => <span class="badge badge-info mr-2 p-2">{tag}</span>)}</div>
+                  <div class="">
+                    {todo.tags.map((tag) => (
+                      <span class="badge badge-info mr-2 p-2">{tag}</span>
+                    ))}
+                  </div>
                   <div class="">{currentDate}</div>
                 </div>
               </div>
