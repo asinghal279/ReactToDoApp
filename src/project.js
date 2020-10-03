@@ -48,24 +48,24 @@ class Project extends Component {
 
   render() {
     return (
-      <div className="col-sm-5">
+      <div className="col-sm-5 border-right">
         <h2>Project's Selection</h2>
-        <div class="input-group col-sm-8 px-0 mb-4">
+        <div className="input-group col-sm-8 px-0 mb-4">
           <select
-            class="custom-select"
+            className="custom-select"
             id="selector"
             onChange={this.changeSelectedProject}
           >
             {Object.keys(this.state.projects).map((project) => (
-              <option id={project} value={project}>
+              <option key={project} id={project} value={project}>
                 {project}
               </option>
             ))}
           </select>
-          <div class="input-group-append">
+          <div className="input-group-append">
             <button
               onClick={this.deleteClicked}
-              class="btn btn-outline-danger"
+              className="btn btn-outline-danger"
               type="button"
             >
               Delete Project
@@ -77,7 +77,7 @@ class Project extends Component {
           list
           <button
             type="button"
-            class="close"
+            className="close"
             aria-label="Close"
             onClick={this.props.handleAlertClose}
           >
@@ -86,26 +86,26 @@ class Project extends Component {
         </div>
         <form
           onSubmit={this.handleSubmit}
-          class="col-sm-12 p-0 mt-4"
+          className="col-sm-12 p-0 mt-4"
           id="projectForm"
         >
-          <div class="form-group">
-            <h3 for="project">Please enter a new Project here :</h3>
+          <div className="form-group">
+            <h3 htmlFor="project">Please enter a new Project here :</h3>
             <input
               type="text"
               name="project"
               id="projectName"
               value={this.state.projectName}
-              class="form-control mb-4"
+              className="form-control mb-4"
               placeholder="Project Name"
               onChange={this.inputField}
               required
             />
-            <div class="text-right">
+            <div className="text-right">
               <input
                 type="submit"
                 value="Add Project"
-                class="btn btn-outline-success btn-md"
+                className="btn btn-outline-success btn-md"
               />
             </div>
           </div>

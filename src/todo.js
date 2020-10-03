@@ -23,15 +23,15 @@ class todo extends Component {
   render() {
     return (
       <div className="col-sm-7">
-        <div class="col-sm-12 mb-5">
-          <div class="my-4 p-3 form-box">
-            <h4 class="text-center">Please Enter your List Items Below</h4>
-            <form onSubmit={this.handleSubmit} id="item-input" class="">
-              <div class="form-group">
+        <div className="col-sm-12 mb-5">
+          <div className="my-4 p-3 form-box">
+            <h4 className="text-center">Please Enter your List Items Below</h4>
+            <form onSubmit={this.handleSubmit} id="item-input" className="">
+              <div className="form-group">
                 <input
                   type="text"
                   id="titleInput"
-                  class="form-control mb-4"
+                  className="form-control mb-4"
                   placeholder="Title"
                   value={this.state.newTitle}
                   onChange={(e) => this.setState({ newTitle: e.target.value })}
@@ -41,39 +41,39 @@ class todo extends Component {
                   name="tags"
                   id="tagsInput"
                   value={this.state.newTags}
-                  class="form-control"
+                  className="form-control"
                   placeholder="Enter Coma Separated Tags.."
                   onChange={(e) => this.setState({ newTags: e.target.value })}
                   required
                 ></textarea>
               </div>
-              <div class="form-group text-right">
+              <div className="form-group text-right">
                 <input
                   type="reset"
-                  class="btn btn-outline-danger btn-sm mx-2"
+                  className="btn btn-outline-danger btn-sm mx-2"
                 />
                 <input
                   type="submit"
                   value="Add"
-                  class="btn btn-outline-success btn-sm float-right"
+                  className="btn btn-outline-success btn-sm float-right"
                 />
               </div>
             </form>
           </div>
-          <div class="col-sm-12 text-center">
+          <div className="col-sm-12 text-center">
             <h2>The To Do list will populate over hear..</h2>
-            <div class="d-flex justify-content-center align-item-center">
+            <div className="d-flex justify-content-center align-item-center">
               <h5>Show Completed Tasks</h5>
               <input
-                class="check ml-2 show-completed"
+                className="check ml-2 show-completed"
                 type="checkbox"
                 name="checkbox"
                 onChange={(e) => this.props.showCompletedTodo(e.target.checked)}
               />
             </div>
           </div>
-          <div class="col-sm-12">
-            <div id="toDoList" class="col-sm-12">
+          <div className="col-sm-12">
+            <div id="toDoList" className="col-sm-12">
               {this.props.children}
             </div>
           </div>
