@@ -43,9 +43,7 @@ class todo extends Component {
                   value={this.state.newTags}
                   class="form-control"
                   placeholder="Enter Coma Separated Tags.."
-                  onChange={(e) =>
-                    this.setState({ newTags: e.target.value })
-                  }
+                  onChange={(e) => this.setState({ newTags: e.target.value })}
                   required
                 ></textarea>
               </div>
@@ -64,8 +62,8 @@ class todo extends Component {
           </div>
           <div class="col-sm-12 text-center">
             <h2>The To Do list will populate over hear..</h2>
-            <div class="d-flex justify-content-center">
-              <p>Show Completed Tasks</p>
+            <div class="d-flex justify-content-center align-item-center">
+              <h5>Show Completed Tasks</h5>
               <input
                 class="check ml-2 show-completed"
                 type="checkbox"
