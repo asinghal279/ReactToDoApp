@@ -44,7 +44,7 @@ class todo extends Component {
                   class="form-control"
                   placeholder="Enter Coma Separated Tags.."
                   onChange={(e) =>
-                    this.setState({ newTags: e.target.value.split(",") })
+                    this.setState({ newTags: e.target.value })
                   }
                   required
                 ></textarea>

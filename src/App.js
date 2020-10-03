@@ -12,7 +12,7 @@ class App extends Component {
           {
             id: 2343,
             title: "morning",
-            tags: ["promises", "callbacks"],
+            tags: "promises, callbacks",
             completed: false,
           },
         ],
@@ -20,6 +20,9 @@ class App extends Component {
       selectedProject: "Async/Await",
       alertClass: "alert alert-warning alert-dismissible fade d-none",
       showCompletedProjects: false,
+      idTobeUpdated: "",
+      titleToUpdate: "",
+      tagsToUpdate: "",
     };
   }
 
@@ -108,6 +111,29 @@ class App extends Component {
     });
   };
 
+  checkedOrNot = (val) => {
+    if (val) {
+      return (
+        <input
+          class="check ml-2 card-check"
+          type="checkbox"
+          name="checkbox"
+          onChange={this.handleTodoCompletedChange}
+          checked="checked"
+        />
+      );
+    } else {
+      return (
+        <input
+          class="check ml-2 card-check"
+          type="checkbox"
+          name="checkbox"
+          onChange={this.handleTodoCompletedChange}
+        />
+      );
+    }
+  };
+
   handleShowCompleted = (val) => {
     let bool;
     if (val) {
@@ -131,18 +157,50 @@ class App extends Component {
     return result;
   };
 
+  openUpdateForm = (e) => {
+    let toDoList = [...this.state.projects[this.state.selectedProject]];
+    toDoList.some((todo, index) => {
+      if (todo.id === +e.target.parentNode.getAttribute("id")) {
+        this.setState({
+          idTobeUpdated: e.target.parentNode.getAttribute("id"),
+          titleToUpdate: todo.title,
+          tagsToUpdate: todo.tags,
+        });
+        return true;
+      }
+    });
+  };
+
+  handleUpdateInput = (e) => {
+    console.log(e.target.id);
+    this.setState({
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  handleUpdateSubmit = () => {
+    let toDoList = [...this.state.projects[this.state.selectedProject]];
+    toDoList.some((todo, index) => {
+      if (todo.id === +this.state.idTobeUpdated) {
+        todo.title = this.state.titleToUpdate;
+        todo.tags = this.state.tagsToUpdate;
+        return true;
+      }
+    });
+    // let newProjectsObj = { ...this.state.projects };
+    // newProjectsObj[this.state.selectedProject] = toDoList;
+    this.state.projects[this.state.selectedProject] = toDoList;
+    this.setState({
+      projects: this.state.projects,
+    });
+  };
   render() {
     let d = new Date();
     let currentDate =
       "" + d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
     return (
       <div className="container">
-        <div
-          class="modal fade"
-          id="myModal"
-          tabindex="-1"
-          role="dialog"
-        >
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -164,13 +222,24 @@ class App extends Component {
                     <label for="recipient-name" class="col-form-label">
                       Title:
                     </label>
-                    <input type="text" class="form-control" id="title-name" />
+                    <input
+                      type="text"
+                      id="titleToUpdate"
+                      value={this.state.titleToUpdate}
+                      onChange={this.handleUpdateInput}
+                      class="form-control"
+                    />
                   </div>
                   <div class="form-group">
                     <label for="message-text" class="col-form-label">
                       Tags:
                     </label>
-                    <textarea class="form-control" id="tags-text"></textarea>
+                    <textarea
+                      id="tagsToUpdate"
+                      value={this.state.tagsToUpdate}
+                      onChange={this.handleUpdateInput}
+                      class="form-control"
+                    ></textarea>
                   </div>
                 </form>
               </div>
@@ -188,6 +257,7 @@ class App extends Component {
                   id="update-button"
                   data-toggle="modal"
                   data-target="#myModal"
+                  onClick={this.handleUpdateSubmit}
                 >
                   Send message
                 </button>
@@ -216,25 +286,6 @@ class App extends Component {
             showCompletedTodo={this.handleShowCompleted}
           >
             {this.projectsToBeShown().map((todo) => {
-              let k =
-                todo.completed === true ? (
-                  <input
-                    class="check ml-2 card-check"
-                    id="pehle"
-                    type="checkbox"
-                    name="checkbox"
-                    onChange={this.handleTodoCompletedChange}
-                    checked="checked"
-                  />
-                ) : (
-                  <input
-                    class="check ml-2 card-check"
-                    type="checkbox"
-                    id="doosra"
-                    name="checkbox"
-                    onChange={this.handleTodoCompletedChange}
-                  />
-                );
               return (
                 <div class="col-sm-12 mb-3 p-2 to-do-item">
                   <div class="d-flex justify-content-between">
@@ -244,6 +295,7 @@ class App extends Component {
                         class="btn btn-outline-info btn-sm edit-button mx-1"
                         data-toggle="modal"
                         data-target="#myModal"
+                        onClick={this.openUpdateForm}
                       >
                         &#9998;
                       </button>
@@ -253,12 +305,12 @@ class App extends Component {
                       >
                         X
                       </button>
-                      {k}
+                      {this.checkedOrNot(todo.completed)}
                     </div>
                   </div>
                   <div class="d-flex justify-content-between mt-4">
                     <div class="">
-                      {todo.tags.map((tag) => (
+                      {todo.tags.split(",").map((tag) => (
                         <span class="badge badge-info mr-2 p-2">{tag}</span>
                       ))}
                     </div>
